@@ -59,6 +59,13 @@ class MySearchTree<T extends Comparable<T>>{
       }
       return 1 + twoChildCount(root.left) + twoChildCount(root.right);
   }
+  public void preOrderPrint(Node root){
+    if(root != null){
+        System.out.print(root.data + " ");
+        preOrderPrint(root.left);
+        preOrderPrint(root.right);
+    }
+  }
 
   private class Node{
     T data;
