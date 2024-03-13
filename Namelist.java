@@ -13,16 +13,20 @@ class MySearchTree<T extends Comparable<T>>{
   public Node getRoot(){
     return root;
   }
-  public Node add(T value, Node root){
+  public void add(T key){
+    root = addRecursive(key, root);
+  }
+  public Node addRecursive(T value, Node root){
     if(root == null){
-      return new Node(value, null, null);
+      root = new Node(value, null, null);
+      return root;
     }
 
     if(root.data.compareTo(value) < 0){
-      root.right = add(value, root.right);
+      root.right = addRecursive(value, root.right);
     }
     else if(root.data.compareTo(value) > 0){
-      root.left = add(value, root.left);
+      root.left = addRecursive(value, root.left);
     }
 
     return root;
@@ -84,8 +88,8 @@ class MySearchTree<T extends Comparable<T>>{
   }
 }
 
-class NameList{
-  public static void main(){
+class Namelist{
+  public static void main(String[] args){
     MySearchTree<String> tree = new MySearchTree<String>();
     try{
       Scanner scanner = new Scanner(new FileInputStream(new File("input.txt")));
@@ -103,7 +107,7 @@ class NameList{
         }
         switch(command){
           case "A":
-            tree.add(name, tree.getRoot());
+            tree.add(name);
             break;
           case "C":
             boolean found = tree.find(name, tree.getRoot());
