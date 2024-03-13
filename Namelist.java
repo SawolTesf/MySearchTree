@@ -1,7 +1,8 @@
 import java.util.Scanner;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.lang.String;
-
+import java.io.File;
 class MySearchTree<T extends Comparable<T>>{
 
   Node root;
@@ -9,7 +10,9 @@ class MySearchTree<T extends Comparable<T>>{
   MySearchTree(){
     root = null;
   }
-
+  public Node getRoot(){
+    return root;
+  }
   public Node add(T value, Node root){
     if(root == null){
       return new Node(value, null, null);
@@ -72,11 +75,6 @@ class MySearchTree<T extends Comparable<T>>{
     Node left;
     Node right;
 
-    Node(){
-      data = null;
-      right = null;
-      left = null;
-    }
     Node(T data, Node left, Node right){
       this.data = data;
       this.left = left;
@@ -88,6 +86,48 @@ class MySearchTree<T extends Comparable<T>>{
 
 class NameList{
   public static void main(){
+    MySearchTree<String> tree = new MySearchTree<String>();
+    try{
+      Scanner scanner = new Scanner(new FileInputStream(new File("input.txt")));
+      Scanner lineScanner = null;
+      String name = "";
+      while(scanner.hasNextLine()){
+        String line = scanner.nextLine();
+        if(line.isEmpty()){
+          break;
+        }
+        lineScanner = new Scanner(line);
+        String command = lineScanner.next();
+        if(command.compareTo("A") == 0 || command.compareTo("C") == 0){
+          name = lineScanner.next();
+        }
+        switch(command){
+          case "A":
+            tree.add(name, tree.getRoot());
+            break;
+          case "C":
+            boolean found = tree.find(name, tree.getRoot());
+            System.out.println(found ? "Found" : "Not Found");
+            break;
+          case "L":
+            System.out.println(tree.leafCount(tree.getRoot()));
+            break;
+          case "P":
+            System.out.println(tree.parentCount(tree.getRoot()));
+            break;
+          case "T":
+            System.out.println(tree.twoChildCount(tree.getRoot()));
+            break;
+          case "D":
+            tree.preOrderPrint(tree.getRoot());
+            break;
+        }
+      }
+      scanner.close();
+      lineScanner.close();
+    }
+    catch(FileNotFoundException e){
 
+    }
   }
 }
