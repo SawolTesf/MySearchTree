@@ -1,3 +1,7 @@
+import java.util.Scanner;
+import java.io.FileInputStream;
+import java.lang.String;
+
 class MySearchTree<T extends Comparable<T>>{
 
   Node root;
@@ -34,7 +38,28 @@ class MySearchTree<T extends Comparable<T>>{
       return true;
     }
   }
-  
+  public int leafCount(Node root){
+    if(root == null){
+        return 0;
+    }
+    if(root.left == null && root.right == null){
+        return 1;
+    }
+    return leafCount(root.left) + leafCount(root.right);
+  }
+  public int parentCount(Node root){
+    if(root == null || (root.left == null && root.right == null)){
+        return 0;
+    }
+    return 1 + parentCount(root.left) + parentCount(root.right);
+  }
+  public int twoChildCount(Node root){
+      if(root == null || root.left == null || root.right == null){
+          return 0;
+      }
+      return 1 + twoChildCount(root.left) + twoChildCount(root.right);
+  }
+
   private class Node{
     T data;
     Node left;
