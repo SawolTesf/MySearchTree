@@ -1,8 +1,6 @@
 import java.util.Scanner;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.lang.String;
-import java.io.File;
+
 class MySearchTree<T extends Comparable<T>>{
 
   Node root;
@@ -27,6 +25,10 @@ class MySearchTree<T extends Comparable<T>>{
     }
     else if(root.data.compareTo(value) > 0){
       root.left = addRecursive(value, root.left);
+    }
+    else{
+      System.out.println("Node already in tree\n");
+      return null;
     }
 
     return root;
@@ -86,52 +88,47 @@ class MySearchTree<T extends Comparable<T>>{
     }
 
   }
-}
 
-class Namelist{
   public static void main(String[] args){
     MySearchTree<String> tree = new MySearchTree<String>();
-    try{
-      Scanner scanner = new Scanner(new FileInputStream(new File("input.txt")));
-      Scanner lineScanner = null;
-      String name = "";
-      while(scanner.hasNextLine()){
-        String line = scanner.nextLine();
-        if(line.isEmpty()){
-          break;
-        }
-        lineScanner = new Scanner(line);
-        String command = lineScanner.next();
-        if(command.compareTo("A") == 0 || command.compareTo("C") == 0){
-          name = lineScanner.next();
-        }
-        switch(command){
-          case "A":
-            tree.add(name);
-            break;
-          case "C":
-            boolean found = tree.find(name, tree.getRoot());
-            System.out.println(found ? "Found" : "Not Found");
-            break;
-          case "L":
-            System.out.println(tree.leafCount(tree.getRoot()));
-            break;
-          case "P":
-            System.out.println(tree.parentCount(tree.getRoot()));
-            break;
-          case "T":
-            System.out.println(tree.twoChildCount(tree.getRoot()));
-            break;
-          case "D":
-            tree.preOrderPrint(tree.getRoot());
-            break;
-        }
+    Scanner scanner = new Scanner(System.in);
+    Scanner lineScanner = null;
+    String name = "";
+    while(scanner.hasNextLine()){
+      String line = scanner.nextLine();
+      if(line.isEmpty()){
+        break;
       }
-      scanner.close();
-      lineScanner.close();
+      lineScanner = new Scanner(line);
+      String command = lineScanner.next();
+      if(command.compareTo("A") == 0 || command.compareTo("C") == 0){
+        name = lineScanner.next();
+      }
+      switch(command){
+        case "A":
+          tree.add(name);
+          break;
+        case "C":
+          boolean found = tree.find(name, tree.getRoot());
+          System.out.println(found ? "Found" : "Not Found");
+          break;
+        case "L":
+          System.out.println(tree.leafCount(tree.getRoot()));
+          break;
+        case "P":
+          System.out.println(tree.parentCount(tree.getRoot()));
+          break;
+        case "T":
+          System.out.println(tree.twoChildCount(tree.getRoot()));
+          break;
+        case "D":
+          tree.preOrderPrint(tree.getRoot());
+          break;
+      }
     }
-    catch(FileNotFoundException e){
-
+    scanner.close();
+    if(lineScanner != null) {
+      lineScanner.close();
     }
   }
 }
